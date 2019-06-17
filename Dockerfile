@@ -1,5 +1,7 @@
-FROM debian:unstable # when you test with other platforms
-# FROM arm32v7/debian:unstable # for raspberry pi
+# For Raspberry Pi
+FROM arm32v7/debian:unstable
+# For other day-to-day environment
+# FROM debian:unstable
 
 # Fundamentals
 RUN apt-get update && apt-get -y upgrade
