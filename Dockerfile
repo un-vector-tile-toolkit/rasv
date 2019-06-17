@@ -1,11 +1,19 @@
-FROM arm32v7/debian:unstable
+FROM debian:unstable # when you test with other platforms
+# FROM arm32v7/debian:unstable # for raspberry pi
 
+# Fundamentals
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install apt-transport-https ca-certificates &&\
   apt-get -y install build-essential libsqlite3-dev zlib1g-dev &&\
-  apt-get -y install curl nodejs npm git
+  apt-get -y install curl nodejs npm git sqlite3
 RUN apt-get -y install gcc llvm clang clang-tidy iwyu cppcheck
-RUN npm install n -g && n lts && apt-get purge -y nodejs npm
+RUN apt-get -y install automake libtool pkg-config bash-completion
+RUN apt-get -y install libglfw3-dev libgles2-mesa-dev xvfb
+RUN git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
+  git clone https://github.com/nodenv/node-build.git /root/.nodenv/plugins/node-build &&\
+  git clone https://github.com/nodenv/nodenv-package-rehash.git /root/.nodenv/plugins/nodenv-package-rehash &&\
+  git clone https://github.com/nodenv/nodenv-update.git /root/.nodenv/plugins/nodenv-update
+ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/bin:$PATH
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
   apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
@@ -33,9 +41,15 @@ RUN ln -s /tmp/workdir/osmium-tool/build/osmium /usr/local/bin/osmium
 
 # GDAL for ogr2ogr
 WORKDIR /tmp/workdir
+RUN git clone https://github.com/OSGeo/PROJ
+WORKDIR /tmp/workdir/PROJ
+RUN mkdir -p /tmp/workdir/PROJ/build
+WORKDIR /tmp/workdir/PROJ/build
+RUN cmake .. && cmake --build .
+WORKDIR /tmp/workdir/PROJ
+RUN ./autogen.sh && ./configure && make && make install
+WORKDIR /tmp/workdir
 RUN git clone https://github.com/OSGeo/gdal
-WORKDIR /tmp/workdir/gdal
-RUN ./configure
-RUN make
-RUN make install
+WORKDIR /tmp/workdir/gdal/gdal
+RUN ./configure --with-proj=/usr/local && make && make install && ldconfig
 
