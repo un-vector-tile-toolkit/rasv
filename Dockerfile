@@ -5,7 +5,7 @@ FROM debian:unstable # when you test with other platforms
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install apt-transport-https ca-certificates &&\
   apt-get -y install build-essential libsqlite3-dev zlib1g-dev &&\
-  apt-get -y install curl nodejs npm git sqlite3
+  apt-get -y install curl nodejs npm git vim sqlite3
 RUN apt-get -y install gcc llvm clang clang-tidy iwyu cppcheck
 RUN apt-get -y install automake libtool pkg-config bash-completion
 RUN apt-get -y install libglfw3-dev libgles2-mesa-dev xvfb
@@ -19,13 +19,14 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
   tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get -y install yarn
+RUN yarn global add pm2
 RUN mkdir -p /tmp/workdir
 
 # Tippecanoe
 WORKDIR /tmp/workdir
 RUN git clone https://github.com/mapbox/tippecanoe
 WORKDIR /tmp/workdir/tippecanoe
-RUN make -j2 && make install
+RUN make && make install
 
 # Osmium
 WORKDIR /tmp/workdir
@@ -52,4 +53,20 @@ WORKDIR /tmp/workdir
 RUN git clone https://github.com/OSGeo/gdal
 WORKDIR /tmp/workdir/gdal/gdal
 RUN ./configure --with-proj=/usr/local && make && make install && ldconfig
+
+# produce-320
+WORKDIR /root
+RUN git clone https://github.com/un-vector-tile-toolkit/produce-320
+RUN git clone https://github.com/hfu/duodecim
+WORKDIR /root/produce-320
+RUN yarn
+
+# doria
+WORKDIR /root
+RUN git clone https://github.com/un-vector-tile-toolkit/doria
+RUN git clone -b easter https://github.com/hfu/macrostyle
+RUN git clone https://github.com/hfu/unite-sprite
+RUN git clone https://github.com/hfu/fonts
+WORKDIR /root/doria
+RUN yarn
 
