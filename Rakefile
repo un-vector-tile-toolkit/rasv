@@ -7,6 +7,6 @@ task :scratch do
 end
 
 task :run do
-  sh "docker run -ti --rm rasv:latest bash"
+  sh "docker run --volume /mnt/s:/mnt/s -ti --rm rasv:latest bash"
 end
 

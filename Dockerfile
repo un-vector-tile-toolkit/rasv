@@ -64,14 +64,14 @@ WORKDIR /root/produce-320
 RUN yarn
 
 # doria TODO
-# WORKDIR /root
-# RUN git clone https://github.com/un-vector-tile-toolkit/doria
-# RUN git clone -b easter https://github.com/hfu/macrostyle
-# RUN git clone https://github.com/hfu/unite-sprite
-# RUN git clone https://github.com/hfu/fonts
-# WORKDIR /root/doria
-# RUN apt-get -y install libboost-all-dev clang-format binutils
-# RUN yarn
+#WORKDIR /root
+#RUN git clone https://github.com/un-vector-tile-toolkit/doria
+#RUN git clone -b easter https://github.com/hfu/macrostyle
+#RUN git clone https://github.com/hfu/unite-sprite
+#RUN git clone https://github.com/hfu/fonts
+#WORKDIR /root/doria
+#RUN apt-get -y install libgles2-mesa-dev libosmesa6-dev mesa-common-dev mesa-utils-extra
+#RUN yarn
 
 # END
 WORKDIR /root
