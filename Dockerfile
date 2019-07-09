@@ -4,13 +4,32 @@ FROM arm32v7/debian:unstable
 # FROM debian:unstable
 
 # Fundamentals
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install apt-transport-https ca-certificates &&\
-  apt-get -y install build-essential libsqlite3-dev zlib1g-dev &&\
-  apt-get -y install curl nodejs npm git vim sqlite3
-RUN apt-get -y install gcc llvm clang clang-tidy iwyu cppcheck
-RUN apt-get -y install automake libtool pkg-config bash-completion
-RUN apt-get -y install libglfw3-dev libgles2-mesa-dev xvfb
+RUN apt-get update && apt-get -y upgrade &&\
+  apt-get -y install \
+    apt-transport-https \
+    ca-certificates \
+    build-essential \
+    libsqlite3-dev \
+    zlib1g-dev \
+    curl \
+    nodejs \
+    npm \
+    git \
+    vim \
+    sqlite3 \
+    gcc \
+    llvm \
+    clang \
+    clang-tidy \
+    iwyu \
+    cppcheck \
+    automake \
+    libtool \
+    pkg-config \
+    bash-completion \
+    libglfw3-dev \
+    libgles2-mesa-dev \
+    xvfb
 RUN git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
   git clone https://github.com/nodenv/node-build.git /root/.nodenv/plugins/node-build &&\
   git clone https://github.com/nodenv/nodenv-package-rehash.git /root/.nodenv/plugins/nodenv-package-rehash &&\
@@ -26,35 +45,44 @@ RUN mkdir -p /tmp/workdir
 
 # Tippecanoe
 WORKDIR /tmp/workdir
-RUN git clone https://github.com/mapbox/tippecanoe
-WORKDIR /tmp/workdir/tippecanoe
-RUN make && make install
+RUN git clone https://github.com/mapbox/tippecanoe &&\
+  cd tippecanoe &&\
+  make &&\
+  make install &&\
+  cd .. && rm -rf /tmp/workdir/tippecanoe
 
 # Osmium
 WORKDIR /tmp/workdir
-RUN apt-get -y install libboost-program-options-dev libbz2-dev libexpat1-dev cmake
-RUN git clone https://github.com/mapbox/protozero
-RUN git clone https://github.com/osmcode/libosmium
-RUN git clone https://github.com/osmcode/osmium-tool
-RUN mkdir -p /tmp/workdir/osmium-tool/build
-WORKDIR /tmp/workdir/osmium-tool/build
-RUN cmake ..
-RUN make
-RUN ln -s /tmp/workdir/osmium-tool/build/osmium /usr/local/bin/osmium
+RUN apt-get -y install \
+  libboost-program-options-dev \
+  libbz2-dev libexpat1-dev cmake &&\
+  git clone https://github.com/mapbox/protozero &&\
+  git clone https://github.com/osmcode/libosmium &&\
+  git clone https://github.com/osmcode/osmium-tool &&\
+  mkdir -p /tmp/workdir/osmium-tool/build &&\
+  cd /tmp/workdir/osmium-tool/build &&\
+  cmake .. &&\
+  make &&\
+  cp /tmp/workdir/osmium-tool/build/osmium /usr/local/bin/osmium &&\
+  rm -rf /tmp/workdir/protozero &&\
+  rm -rf /tmp/workdir/libosmium &&\
+  rm -rf /tmp/workdir/osmium-tool
 
 # GDAL for ogr2ogr
 WORKDIR /tmp/workdir
-RUN git clone https://github.com/OSGeo/PROJ
-WORKDIR /tmp/workdir/PROJ
-RUN mkdir -p /tmp/workdir/PROJ/build
-WORKDIR /tmp/workdir/PROJ/build
-RUN cmake .. && cmake --build .
-WORKDIR /tmp/workdir/PROJ
-RUN ./autogen.sh && ./configure && make && make install
-WORKDIR /tmp/workdir
-RUN git clone https://github.com/OSGeo/gdal
-WORKDIR /tmp/workdir/gdal/gdal
-RUN ./configure --with-proj=/usr/local && make && make install && ldconfig
+RUN git clone https://github.com/OSGeo/PROJ &&\
+  cd /tmp/workdir/PROJ &&\
+  mkdir -p /tmp/workdir/PROJ/build &&\
+  cd /tmp/workdir/PROJ/build &&\
+  cmake .. && cmake --build . &&\
+  cd /tmp/workdir/PROJ &&\
+  ./autogen.sh && ./configure && make && make install &&\
+  cd /tmp/workdir &&\
+  git clone https://github.com/OSGeo/gdal &&\
+  cd /tmp/workdir/gdal/gdal &&\
+  ./configure --with-proj=/usr/local && make && make install && ldconfig &&\
+  rm -rf /tmp/workdir/PROJ &&\
+  rm -rf /tmp/workdir/gdal
 
 # produce-320
 WORKDIR /root
