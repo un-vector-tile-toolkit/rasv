@@ -7,29 +7,33 @@ FROM arm32v7/debian:unstable
 RUN apt-get update && apt-get -y upgrade &&\
   apt-get -y install \
     apt-transport-https \
-    ca-certificates \
+    automake \
+    bash-completion \
     build-essential \
-    libsqlite3-dev \
-    zlib1g-dev \
-    curl \
-    nodejs \
-    npm \
-    git \
-    vim \
-    sqlite3 \
-    gcc \
-    llvm \
+    ca-certificates \
     clang \
     clang-tidy \
-    iwyu \
+    cmake \
     cppcheck \
-    automake \
-    libtool \
-    pkg-config \
-    bash-completion \
-    libglfw3-dev \
+    curl \
+    gcc \
+    git \
+    iwyu \
+    libboost-program-options-dev \
+    libbz2-dev \
+    libexpat1-dev \
     libgles2-mesa-dev \
-    xvfb
+    libglfw3-dev \
+    libsqlite3-dev \
+    libtool \
+    llvm \
+    nodejs \
+    npm \
+    pkg-config \
+    sqlite3 \
+    vim \
+    xvfb \
+    zlib1g-dev
 RUN git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
   git clone https://github.com/nodenv/node-build.git /root/.nodenv/plugins/node-build &&\
   git clone https://github.com/nodenv/nodenv-package-rehash.git /root/.nodenv/plugins/nodenv-package-rehash &&\
@@ -53,20 +57,17 @@ RUN git clone https://github.com/mapbox/tippecanoe &&\
 
 # Osmium
 WORKDIR /tmp/workdir
-RUN apt-get -y install \
-  libboost-program-options-dev \
-  libbz2-dev libexpat1-dev cmake &&\
-  git clone https://github.com/mapbox/protozero &&\
+RUN git clone https://github.com/mapbox/protozero &&\
   git clone https://github.com/osmcode/libosmium &&\
   git clone https://github.com/osmcode/osmium-tool &&\
   mkdir -p /tmp/workdir/osmium-tool/build &&\
   cd /tmp/workdir/osmium-tool/build &&\
   cmake .. &&\
   make &&\
-  make install
-#  rm -rf /tmp/workdir/protozero &&\
-#  rm -rf /tmp/workdir/libosmium &&\
-#  rm -rf /tmp/workdir/osmium-tool
+  make install &&\
+  rm -rf /tmp/workdir/protozero &&\
+  rm -rf /tmp/workdir/libosmium &&\
+  rm -rf /tmp/workdir/osmium-tool
 
 # GDAL for ogr2ogr
 WORKDIR /tmp/workdir
