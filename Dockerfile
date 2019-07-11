@@ -63,10 +63,10 @@ RUN apt-get -y install \
   cd /tmp/workdir/osmium-tool/build &&\
   cmake .. &&\
   make &&\
-  cp /tmp/workdir/osmium-tool/build/osmium /usr/local/bin/osmium &&\
-  rm -rf /tmp/workdir/protozero &&\
-  rm -rf /tmp/workdir/libosmium &&\
-  rm -rf /tmp/workdir/osmium-tool
+  make install
+#  rm -rf /tmp/workdir/protozero &&\
+#  rm -rf /tmp/workdir/libosmium &&\
+#  rm -rf /tmp/workdir/osmium-tool
 
 # GDAL for ogr2ogr
 WORKDIR /tmp/workdir
