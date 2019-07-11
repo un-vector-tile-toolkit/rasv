@@ -1,7 +1,7 @@
 # For Raspberry Pi
-FROM arm32v7/debian:unstable
+#FROM arm32v7/debian:unstable
 # For other day-to-day environment
-# FROM debian:unstable
+FROM debian:unstable
 
 # Fundamentals
 RUN apt-get update && apt-get -y upgrade &&\
@@ -17,6 +17,7 @@ RUN apt-get update && apt-get -y upgrade &&\
     cppcheck \
     curl \
     gcc \
+    gdal-bin \
     git \
     iwyu \
     libboost-program-options-dev \
@@ -68,39 +69,6 @@ RUN git clone https://github.com/mapbox/protozero &&\
   rm -rf /tmp/workdir/protozero &&\
   rm -rf /tmp/workdir/libosmium &&\
   rm -rf /tmp/workdir/osmium-tool
-
-# GDAL for ogr2ogr
-WORKDIR /tmp/workdir
-RUN git clone https://github.com/OSGeo/PROJ &&\
-  cd /tmp/workdir/PROJ &&\
-  mkdir -p /tmp/workdir/PROJ/build &&\
-  cd /tmp/workdir/PROJ/build &&\
-  cmake .. && cmake --build . &&\
-  cd /tmp/workdir/PROJ &&\
-  ./autogen.sh && ./configure && make && make install &&\
-  cd /tmp/workdir &&\
-  git clone https://github.com/OSGeo/gdal &&\
-  cd /tmp/workdir/gdal/gdal &&\
-  ./configure --with-proj=/usr/local && make && make install && ldconfig &&\
-  rm -rf /tmp/workdir/PROJ &&\
-  rm -rf /tmp/workdir/gdal
-
-# produce-320
-WORKDIR /root
-RUN git clone https://github.com/un-vector-tile-toolkit/produce-320
-RUN git clone https://github.com/hfu/duodecim
-WORKDIR /root/produce-320
-RUN yarn
-
-# doria TODO
-#WORKDIR /root
-#RUN git clone https://github.com/un-vector-tile-toolkit/doria
-#RUN git clone -b easter https://github.com/hfu/macrostyle
-#RUN git clone https://github.com/hfu/unite-sprite
-#RUN git clone https://github.com/hfu/fonts
-#WORKDIR /root/doria
-#RUN apt-get -y install libgles2-mesa-dev libosmesa6-dev mesa-common-dev mesa-utils-extra
-#RUN yarn
 
 # END
 WORKDIR /root
