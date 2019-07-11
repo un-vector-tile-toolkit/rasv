@@ -70,5 +70,11 @@ RUN git clone https://github.com/mapbox/protozero &&\
   rm -rf /tmp/workdir/libosmium &&\
   rm -rf /tmp/workdir/osmium-tool
 
+# Maputnik
+WORKDIR /root
+RUN git clone https://github.com/maputnik/editor &&\
+  cd editor &&\
+  npm install
+
 # END
 WORKDIR /root
