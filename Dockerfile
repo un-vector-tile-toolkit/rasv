@@ -34,19 +34,24 @@ RUN apt-get update && apt-get -y upgrade &&\
     sqlite3 \
     vim \
     xvfb \
-    zlib1g-dev
-RUN git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
-  git clone https://github.com/nodenv/node-build.git /root/.nodenv/plugins/node-build &&\
-  git clone https://github.com/nodenv/nodenv-package-rehash.git /root/.nodenv/plugins/nodenv-package-rehash &&\
-  git clone https://github.com/nodenv/nodenv-update.git /root/.nodenv/plugins/nodenv-update
+    yarn \
+    zlib1g-dev &&\
+  rm -rf /var/lib/apt/lists/*
 ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/bin:$PATH
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
-  apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
-  tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get -y install yarn
-RUN yarn global add pm2
-RUN mkdir -p /tmp/workdir
+RUN git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
+  git clone https://github.com/nodenv/node-build.git \
+    /root/.nodenv/plugins/node-build &&\
+  git clone https://github.com/nodenv/nodenv-package-rehash.git \
+    /root/.nodenv/plugins/nodenv-package-rehash &&\
+  git clone https://github.com/nodenv/nodenv-update.git \
+    /root/.nodenv/plugins/nodenv-update &&\
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
+    apt-key add - &&\
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
+    tee /etc/apt/sources.list.d/yarn.list &&\
+  yarn global add pm2 &&\
+  npm install -g npm &&\
+  mkdir -p /tmp/workdir
 
 # Tippecanoe
 WORKDIR /tmp/workdir
@@ -74,7 +79,7 @@ RUN git clone https://github.com/mapbox/protozero &&\
 WORKDIR /root
 RUN git clone https://github.com/maputnik/editor &&\
   cd editor &&\
-  npm install
+  yarn
 
 # END
 WORKDIR /root
