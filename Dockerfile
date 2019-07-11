@@ -1,6 +1,3 @@
-# For Raspberry Pi
-#FROM arm32v7/debian:unstable
-# For other day-to-day environment
 FROM debian:unstable
 
 # Fundamentals
@@ -40,6 +37,7 @@ RUN apt-get update &&\
     libsqlite3-dev \
     libtool \
     llvm \
+    nano \
     nodejs \
     npm \
     pkg-config \
