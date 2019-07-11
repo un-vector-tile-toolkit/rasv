@@ -5,6 +5,20 @@ FROM debian:unstable
 
 # Fundamentals
 RUN apt-get update && apt-get -y upgrade &&\
+  apt-get install -y curl git gnupg &&\
+  git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
+  git clone https://github.com/nodenv/node-build.git \
+    /root/.nodenv/plugins/node-build &&\
+  git clone https://github.com/nodenv/nodenv-package-rehash.git \
+    /root/.nodenv/plugins/nodenv-package-rehash &&\
+  git clone https://github.com/nodenv/nodenv-update.git \
+    /root/.nodenv/plugins/nodenv-update &&\
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
+    apt-key add - &&\
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
+    tee /etc/apt/sources.list.d/yarn.list
+ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/bin:$PATH
+RUN apt-get update &&\
   apt-get -y install \
     apt-transport-https \
     automake \
@@ -15,10 +29,8 @@ RUN apt-get update && apt-get -y upgrade &&\
     clang-tidy \
     cmake \
     cppcheck \
-    curl \
     gcc \
     gdal-bin \
-    git \
     iwyu \
     libboost-program-options-dev \
     libbz2-dev \
@@ -36,21 +48,9 @@ RUN apt-get update && apt-get -y upgrade &&\
     xvfb \
     yarn \
     zlib1g-dev &&\
-  rm -rf /var/lib/apt/lists/*
-ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/bin:$PATH
-RUN git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
-  git clone https://github.com/nodenv/node-build.git \
-    /root/.nodenv/plugins/node-build &&\
-  git clone https://github.com/nodenv/nodenv-package-rehash.git \
-    /root/.nodenv/plugins/nodenv-package-rehash &&\
-  git clone https://github.com/nodenv/nodenv-update.git \
-    /root/.nodenv/plugins/nodenv-update &&\
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
-    apt-key add - &&\
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
-    tee /etc/apt/sources.list.d/yarn.list &&\
-  yarn global add pm2 &&\
+  rm -rf /var/lib/apt/lists/* &&\
   npm install -g npm &&\
+  yarn global add pm2 &&\
   mkdir -p /tmp/workdir
 
 # Tippecanoe
