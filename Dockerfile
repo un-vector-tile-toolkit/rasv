@@ -13,7 +13,8 @@ RUN apt-get update && apt-get -y upgrade &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
     apt-key add - &&\
   echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
-    tee /etc/apt/sources.list.d/yarn.list
+    tee /etc/apt/sources.list.d/yarn.list &&\
+  rm -rf /var/lib/apt/lists/*
 ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/bin:$PATH
 RUN apt-get update &&\
   apt-get -y install \
