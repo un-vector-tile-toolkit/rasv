@@ -16,7 +16,7 @@ First, you may need to enable experimental mode of docker because we are pusing 
 ```
 git clone https://github.com/un-vector-tile-toolkit/rasv
 cd rasv
-rake amdhf
+rake armhf
 docker login
 docker push unvt/rasv:armhf
 ```
