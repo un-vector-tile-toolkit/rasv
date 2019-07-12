@@ -3,11 +3,11 @@ task :default do
 end
 
 task :armhf do
-  sh "docker build --no-cache -t rasv:armf ."
+  sh "docker build --no-cache -t unvt/rasv:armhf ."
 end
 
 task :amd64 do
-  sh "docker build --no-cache -t rasv:amd64 ."
+  sh "docker build --no-cache -t unvt/rasv:amd64 ."
 end
 
 task :scratch do
