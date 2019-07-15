@@ -29,6 +29,7 @@ rake amd32
 docker login
 docker push unvt/rasv:amd64
 docker manifest create --amend unvt/rasv:latest unvt/rasv:armhf unvt/rasv:amd64
+docker push manifest unvt/rasv:latest
 ```
 
 
