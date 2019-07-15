@@ -1,13 +1,15 @@
 task :default do
-  sh "docker build -t rasv:latest ."
+  sh "docker build -t rasv:test ."
 end
 
 task :armhf do
   sh "docker build --no-cache -t unvt/rasv:armhf ."
+  sh "docker push unvt/rasv:armhf"
 end
 
 task :amd64 do
   sh "docker build --no-cache -t unvt/rasv:amd64 ."
+  sh "docker push unvt/rasv:amd64"
 end
 
 task :scratch do

@@ -43,6 +43,7 @@ RUN apt-get update &&\
     npm \
     pkg-config \
     sqlite3 \
+    tmux \
     vim \
     xvfb \
     yarn \
