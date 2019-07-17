@@ -19,6 +19,7 @@ ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/b
 RUN apt-get update &&\
   apt-get -y install \
     apt-transport-https \
+    asciinema \
     automake \
     bash-completion \
     build-essential \
