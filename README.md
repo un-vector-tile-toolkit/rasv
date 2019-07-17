@@ -29,7 +29,7 @@ rake amd32
 docker login
 docker push unvt/rasv:amd64
 docker manifest create --amend unvt/rasv:latest unvt/rasv:armhf unvt/rasv:amd64
-docker push manifest unvt/rasv:latest
+docker manifest push unvt/rasv:latest
 ```
 
 You may need to add `"experimental": "enabled"` to `~/.docker/config.json`. You can `manifest create` in your Raspberry Pi, too. 
