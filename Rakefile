@@ -12,6 +12,11 @@ task :amd64 do
   sh "docker push unvt/rasv:amd64"
 end
 
+task :latest do
+  sh "docker manifest create --amend unvt/rasv:latest unvt/rasv:armhf unvt/rasv:amd64"
+  sh "docker manifest push unvt/rasv:latest"
+end
+
 task :scratch do
   sh "docker build --no-cache -t rasv:latest ."
 end
