@@ -43,6 +43,7 @@ RUN apt-get update &&\
     nodejs \
     npm \
     pkg-config \
+    ruby \
     sqlite3 \
     tmux \
     vim \
@@ -87,18 +88,6 @@ WORKDIR /root
 RUN git clone https://github.com/ibesora/vt-optimizer &&\
   cd vt-optimizer &&\
   yarn
-
-# geojsons-natural-disaster-monuments
-WORKDIR /root
-RUN git clone https://github.com/optgeo/geojsons-natural-disaster-monuments
-
-# ango-produce
-WORKDIR /root
-RUN git clone https://github.com/un-vector-tile-toolkit/ango-produce
-
-# ango-host
-WORKDIR /root
-RUN git cline https://github.com/un-vector-tile-toolkit/ango-host
 
 # END
 WORKDIR /root
