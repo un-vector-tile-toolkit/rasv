@@ -25,7 +25,7 @@ docker push unvt/rasv:armhf
 ```
 git clone https://github.com/un-vector-tile-toolkit/rasv
 cd rasv
-rake amd32
+rake amd64
 docker login
 docker push unvt/rasv:amd64
 docker manifest create --amend unvt/rasv:latest unvt/rasv:armhf unvt/rasv:amd64

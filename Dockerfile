@@ -82,5 +82,9 @@ RUN git clone https://github.com/maputnik/editor &&\
   cd editor &&\
   yarn
 
+# geojsons-natural-disaster-monuments
+WORKDIR /root
+RUN git clone https://github.com/optgeo/geojsons-natural-disaster-monuments
+
 # END
 WORKDIR /root
