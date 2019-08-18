@@ -82,6 +82,12 @@ RUN git clone https://github.com/maputnik/editor &&\
   cd editor &&\
   yarn
 
+# vt-optimizer
+WORKDIR /root
+RUN git clone https://github.com/ibesora/vt-optimizer &&\
+  cd vt-optimizer &&\
+  yarn
+
 # geojsons-natural-disaster-monuments
 WORKDIR /root
 RUN git clone https://github.com/optgeo/geojsons-natural-disaster-monuments
