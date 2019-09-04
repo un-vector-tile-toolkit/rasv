@@ -52,7 +52,7 @@ RUN apt-get update &&\
     zlib1g-dev &&\
   rm -rf /var/lib/apt/lists/* &&\
   npm install -g npm &&\
-  yarn global add pm2 &&\
+  yarn global add pm2 hjson browserify rollup &&\
   mkdir -p /tmp/workdir
 
 # Tippecanoe
