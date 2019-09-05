@@ -53,7 +53,7 @@ RUN apt-get update &&\
   rm -rf /var/lib/apt/lists/* &&\
   npm install -g npm &&\
   yarn global add pm2 hjson browserify rollup \
-    @mapbox/mapbox-gl-style-spec &&\
+    @mapbox/mapbox-gl-style-spec budo &&\
   mkdir -p /tmp/workdir
 
 # Tippecanoe
