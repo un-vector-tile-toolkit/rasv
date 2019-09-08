@@ -3,20 +3,11 @@ FROM debian:unstable
 # Fundamentals
 RUN apt-get update && apt-get -y upgrade &&\
   apt-get install -y curl git gnupg &&\
-  git clone https://github.com/nodenv/nodenv.git /root/.nodenv &&\
-  git clone https://github.com/nodenv/node-build.git \
-    /root/.nodenv/plugins/node-build &&\
-  git clone https://github.com/nodenv/nodenv-package-rehash.git \
-    /root/.nodenv/plugins/nodenv-package-rehash &&\
-  git clone https://github.com/nodenv/nodenv-update.git \
-    /root/.nodenv/plugins/nodenv-update &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
     apt-key add - &&\
   echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
     tee /etc/apt/sources.list.d/yarn.list &&\
-  rm -rf /var/lib/apt/lists/*
-ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.nodenv/shims:/root/.nodenv/bin:$PATH
-RUN apt-get update &&\
+  apt-get update &&\
   apt-get -y install \
     apt-transport-https \
     asciinema \
@@ -50,23 +41,20 @@ RUN apt-get update &&\
     xvfb \
     yarn \
     zlib1g-dev &&\
-  rm -rf /var/lib/apt/lists/* &&\
   npm install -g npm &&\
   yarn global add pm2 hjson browserify rollup \
     @mapbox/mapbox-gl-style-spec budo &&\
-  mkdir -p /tmp/workdir
-
-# Tippecanoe
-WORKDIR /tmp/workdir
-RUN git clone https://github.com/mapbox/tippecanoe &&\
+  mkdir -p /tmp/workdir &&\
+  # Tippecanoe
+  cd /tmp/workdir &&\
+  git clone https://github.com/mapbox/tippecanoe &&\
   cd tippecanoe &&\
   make &&\
   make install &&\
-  cd .. && rm -rf /tmp/workdir/tippecanoe
-
-# Osmium
-WORKDIR /tmp/workdir
-RUN git clone https://github.com/mapbox/protozero &&\
+  cd .. && rm -rf /tmp/workdir/tippecanoe &&\
+  # Osmium
+  cd /tmp/workdir &&\
+  git clone https://github.com/mapbox/protozero &&\
   git clone https://github.com/osmcode/libosmium &&\
   git clone https://github.com/osmcode/osmium-tool &&\
   mkdir -p /tmp/workdir/osmium-tool/build &&\
@@ -74,9 +62,31 @@ RUN git clone https://github.com/mapbox/protozero &&\
   cmake .. &&\
   make &&\
   make install &&\
+  cd /tmp/workdir &&\
   rm -rf /tmp/workdir/protozero &&\
   rm -rf /tmp/workdir/libosmium &&\
-  rm -rf /tmp/workdir/osmium-tool
+  rm -rf /tmp/workdir/osmium-tool &&\
+  # remove install packages
+  apt-get -y remove \
+    apt-transport-https \
+    automake \
+    build-essential \
+    clang \
+    clang-tidy \
+    cmake \
+    cppcheck \
+    gcc \
+    libboost-program-options-dev \
+    libbz2-dev \
+    libexpat1-dev \
+    libgles2-mesa-dev \
+    libglfw3-dev \
+    libsqlite3-dev \
+    llvm \
+    zlib1g-dev &&\
+  # remove additonal installed dev packages
+  apt-get -y autoremove &&\
+  rm -rf /var/lib/apt/lists/*
 
 # Maputnik
 WORKDIR /root
