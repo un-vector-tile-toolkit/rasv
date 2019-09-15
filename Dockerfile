@@ -1,4 +1,4 @@
-FROM debian:unstable
+FROM debian:testing
 
 # Fundamentals
 RUN apt-get update && apt-get -y upgrade &&\
