@@ -40,6 +40,7 @@ RUN apt-get update && apt-get -y upgrade &&\
     vim \
     xvfb \
     yarn \
+    zip \
     zlib1g-dev &&\
   npm install -g npm &&\
   yarn global add pm2 hjson browserify rollup \
