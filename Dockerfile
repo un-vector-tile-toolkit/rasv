@@ -1,6 +1,5 @@
 FROM debian:testing
 
-# Fundamentals
 RUN apt-get update && apt-get -y upgrade &&\
   apt-get install -y curl git gnupg &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
@@ -44,7 +43,7 @@ RUN apt-get update && apt-get -y upgrade &&\
     zlib1g-dev &&\
   npm install -g npm &&\
   yarn global add pm2 hjson browserify rollup \
-    @mapbox/mapbox-gl-style-spec budo &&\
+    @mapbox/mapbox-gl-style-spec budo @pushcorn/hocon-parser &&\
   mkdir -p /tmp/workdir &&\
   # Tippecanoe
   cd /tmp/workdir &&\
@@ -67,13 +66,25 @@ RUN apt-get update && apt-get -y upgrade &&\
   rm -rf /tmp/workdir/protozero &&\
   rm -rf /tmp/workdir/libosmium &&\
   rm -rf /tmp/workdir/osmium-tool &&\
+  cd /root &&\
+  git clone https://github.com/maputnik/editor &&\
+  cd editor &&\
+  yarn &&\
+  cd /root &&\
+  git clone https://github.com/ibesora/vt-optimizer &&\
+  cd vt-optimizer &&\
+  yarn &&\
+  cd /root &&\
   # remove install packages
   apt-get -y remove \
     apt-transport-https \
     automake \
+    build-essential \
     clang \
     clang-tidy \
     cmake \
+    cppcheck \
+    gcc \
     libboost-program-options-dev \
     libbz2-dev \
     libexpat1-dev \
@@ -85,18 +96,6 @@ RUN apt-get update && apt-get -y upgrade &&\
   # remove additonal installed dev packages
   apt-get -y autoremove &&\
   rm -rf /var/lib/apt/lists/*
-
-# Maputnik
-WORKDIR /root
-RUN git clone https://github.com/maputnik/editor &&\
-  cd editor &&\
-  npm install
-
-# vt-optimizer
-WORKDIR /root
-RUN git clone https://github.com/ibesora/vt-optimizer &&\
-  cd vt-optimizer &&\
-  yarn
 
 # END
 WORKDIR /root
