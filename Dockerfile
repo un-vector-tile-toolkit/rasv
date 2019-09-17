@@ -71,12 +71,9 @@ RUN apt-get update && apt-get -y upgrade &&\
   apt-get -y remove \
     apt-transport-https \
     automake \
-    build-essential \
     clang \
     clang-tidy \
     cmake \
-    cppcheck \
-    gcc \
     libboost-program-options-dev \
     libbz2-dev \
     libexpat1-dev \
@@ -93,7 +90,7 @@ RUN apt-get update && apt-get -y upgrade &&\
 WORKDIR /root
 RUN git clone https://github.com/maputnik/editor &&\
   cd editor &&\
-  yarn
+  npm install
 
 # vt-optimizer
 WORKDIR /root
