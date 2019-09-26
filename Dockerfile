@@ -1,7 +1,9 @@
 FROM debian:testing
 
 RUN apt-get update && apt-get -y upgrade &&\
-  apt-get install -y curl git gnupg &&\
+  apt-get install -y curl ca-certificates &&\
+  c_rehash &&\
+  apt-get install -y git gnupg &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |\
     apt-key add - &&\
   echo "deb https://dl.yarnpkg.com/debian/ stable main" |\
@@ -13,7 +15,6 @@ RUN apt-get update && apt-get -y upgrade &&\
     automake \
     bash-completion \
     build-essential \
-    ca-certificates \
     clang \
     clang-tidy \
     cmake \
@@ -41,6 +42,7 @@ RUN apt-get update && apt-get -y upgrade &&\
     yarn \
     zip \
     zlib1g-dev &&\
+  npm config set unsafe-perm true &&\
   npm install -g npm &&\
   yarn global add pm2 hjson browserify rollup \
     @mapbox/mapbox-gl-style-spec budo @pushcorn/hocon-parser &&\
