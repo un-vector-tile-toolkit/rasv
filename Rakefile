@@ -13,6 +13,7 @@ task :amd64 do
 end
 
 task :latest do
+  sh "docker manifest push --purge unvt/rasv:latest"
   sh "docker manifest create --amend unvt/rasv:latest unvt/rasv:armhf unvt/rasv:amd64"
   sh "docker manifest push unvt/rasv:latest"
 end
