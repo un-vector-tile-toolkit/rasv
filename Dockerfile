@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:unstable
 
 RUN apt-get update && apt-get -y upgrade &&\
   apt-get install -y curl ca-certificates &&\
@@ -33,6 +33,7 @@ RUN apt-get update && apt-get -y upgrade &&\
     nano \
     nodejs \
     npm \
+    osmium-tool \
     pkg-config \
     ruby \
     sqlite3 \
@@ -55,19 +56,20 @@ RUN apt-get update && apt-get -y upgrade &&\
   make install &&\
   cd .. && rm -rf /tmp/workdir/tippecanoe &&\
   # Osmium
-  cd /tmp/workdir &&\
-  git clone https://github.com/mapbox/protozero &&\
-  git clone https://github.com/osmcode/libosmium &&\
-  git clone https://github.com/osmcode/osmium-tool &&\
-  mkdir -p /tmp/workdir/osmium-tool/build &&\
-  cd /tmp/workdir/osmium-tool/build &&\
-  cmake .. &&\
-  make &&\
-  make install &&\
-  cd /tmp/workdir &&\
-  rm -rf /tmp/workdir/protozero &&\
-  rm -rf /tmp/workdir/libosmium &&\
-  rm -rf /tmp/workdir/osmium-tool &&\
+#  cd /tmp/workdir &&\
+#  git clone https://github.com/mapbox/protozero &&\
+#  git clone https://github.com/osmcode/libosmium &&\
+#  git clone https://github.com/osmcode/osmium-tool &&\
+#  mkdir -p /tmp/workdir/osmium-tool/build &&\
+#  cd /tmp/workdir/osmium-tool/build &&\
+#  cmake .. &&\
+#  make &&\
+#  make install &&\
+#  cd /tmp/workdir &&\
+#  rm -rf /tmp/workdir/protozero &&\
+#  rm -rf /tmp/workdir/libosmium &&\
+#  rm -rf /tmp/workdir/osmium-tool &&\
+  # Maputnik
   cd /root &&\
   git clone https://github.com/maputnik/editor &&\
   cd editor &&\
