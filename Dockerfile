@@ -87,7 +87,6 @@ RUN apt-get update && apt-get -y upgrade &&\
     cmake \
     cppcheck \
     gcc \
-    libboost-program-options-dev \
     libbz2-dev \
     libexpat1-dev \
     libgles2-mesa-dev \
