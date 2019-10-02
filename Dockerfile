@@ -42,7 +42,7 @@ RUN apt-get update && apt-get -y upgrade &&\
     yarn \
     zip \
     zlib1g-dev &&\
-  curl https://www.npmjs.com/install.sh | sudo sh &&\
+  curl https://www.npmjs.com/install.sh | sh &&\
   npm config set unsafe-perm true &&\
   npm install -g npm &&\
   yarn global add pm2 hjson browserify rollup \
